@@ -16,6 +16,8 @@ Always reference these instructions first and fallback to search or bash command
   - Web Frontend: `dotnet run --project aspire.me.Web` (runs on http://localhost:5186)  
 - Run full orchestrated application (requires Docker/Kubernetes):
   - `dotnet run --project aspire.me.AppHost` -- may fail in sandboxed environments due to DCP requirements
+- Alternative Docker development:
+  - `docker-compose up` -- runs both services in containers
 
 ## Validation
 - Always manually validate any new code by running the individual services and testing endpoints.
@@ -34,15 +36,21 @@ The following are outputs from frequently run commands. Reference them instead o
 ls -a [repo-root]
 .
 ..
+.devcontainer/
+.github/
 .git
 .gitignore
+.editorconfig
 LICENSE
-aspire.me.ApiService
-aspire.me.AppHost  
-aspire.me.ServiceDefaults
-aspire.me.Tests
-aspire.me.Web
+README.md
+aspire.me.ApiService/
+aspire.me.AppHost/  
+aspire.me.ServiceDefaults/
+aspire.me.Tests/
+aspire.me.Web/
 aspire.me.sln
+docker-compose.yml
+dotnet-install.sh
 ```
 
 ### Project Structure
@@ -56,9 +64,10 @@ aspire.me.sln
 - .NET 9.0
 - ASP.NET Core (API service)
 - Blazor Server (Web frontend)
-- .NET Aspire (distributed application framework)
+- .NET Aspire 9.4.1 (distributed application framework)
 - OpenTelemetry (observability)
 - xUnit (testing)
+- Docker & Docker Compose (containerization)
 
 ### Build Timing Expectations
 - **CRITICAL**: All build operations require .NET 9.0 SDK installation first
@@ -77,19 +86,35 @@ aspire.me.sln
    - Start Web: `dotnet run --project aspire.me.Web` 
 6. Test manually using curl commands for API endpoints
 7. Use `dotnet watch run --project [projectname]` for hot reload during development
+8. Alternative: Use `docker-compose up` for containerized development
 
 ### API Endpoints
 - GET /weatherforecast - Returns weather forecast data (JSON array)
 - GET /health - Returns "Healthy" status
 - GET /alive - Returns health check for liveness probe
+- GET /openapi - Returns OpenAPI specification (development only)
 
 ### Web Application
 - Blazor Server application on http://localhost:5186
 - Uses HttpClient to call API service at "https+http://apiservice" (service discovery)
 - When running individually, configure API base URL if needed
 
+### Version Information
+- .NET Aspire: 9.4.1 (latest stable)
+- Aspire.AppHost.Sdk: 9.4.1
+- Aspire.Hosting.AppHost: 9.4.1
+- Microsoft.Extensions.ServiceDiscovery: 9.4.1
+- Aspire.Hosting.Testing: 9.4.1
+
+### Containerization
+- Each service has its own Dockerfile for production deployment
+- docker-compose.yml provided for local development
+- Health checks included for monitoring
+- Proper networking configuration between services
+
 ### Limitations in Sandboxed Environments
 - Full Aspire orchestration (`dotnet run --project aspire.me.AppHost`) requires DCP (Distributed Configuration Protocol) or Kubernetes
 - Integration tests fail because they require full orchestration
 - Service discovery between services may not work without orchestration
 - Individual services work perfectly for development and testing
+- Docker Compose provides an alternative for local development without full Aspire orchestration

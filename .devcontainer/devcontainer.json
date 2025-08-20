@@ -1,0 +1,46 @@
+{
+  "name": ".NET Aspire Development",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "ms-vscode.vscode-json",
+        "bradlc.vscode-tailwindcss",
+        "ms-azuretools.vscode-docker",
+        "github.copilot",
+        "github.copilot-chat"
+      ],
+      "settings": {
+        "dotnet.defaultSolution": "aspire.me.sln"
+      }
+    }
+  },
+
+  "forwardPorts": [5186, 5358, 15888],
+  "portsAttributes": {
+    "5186": {
+      "label": "Blazor Web App",
+      "onAutoForward": "notify"
+    },
+    "5358": {
+      "label": "Weather API",
+      "onAutoForward": "notify"
+    },
+    "15888": {
+      "label": "Aspire Dashboard",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "dotnet restore",
+
+  "remoteUser": "vscode"
+}
