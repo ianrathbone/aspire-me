@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/dev-proxy/main/schemas/v0.20.0/rc.schema.json",
+  "plugins": [
+    {
+      "name": "RetryAfterPlugin",
+      "enabled": false,
+      "pluginPath": "~appFolder/plugins/dev-proxy-plugins.dll",
+      "configSection": "retryAfterPlugin"
+    },
+    {
+      "name": "RateLimitingPlugin",
+      "enabled": false,
+      "pluginPath": "~appFolder/plugins/dev-proxy-plugins.dll",
+      "configSection": "rateLimitingPlugin"
+    },
+    {
+      "name": "MockingPlugin",
+      "enabled": true,
+      "pluginPath": "~appFolder/plugins/dev-proxy-plugins.dll",
+      "configSection": "mockingPlugin"
+    },
+    {
+      "name": "OpenApiSpecGeneratorPlugin",
+      "enabled": true,
+      "pluginPath": "~appFolder/plugins/dev-proxy-plugins.dll",
+      "configSection": "openApiSpecGeneratorPlugin"
+    },
+    {
+      "name": "ApiCenterOnboardingPlugin",
+      "enabled": false,
+      "pluginPath": "~appFolder/plugins/dev-proxy-plugins.dll",
+      "configSection": "apiCenterOnboardingPlugin"
+    },
+    {
+      "name": "DevToolsPlugin",
+      "enabled": true,
+      "pluginPath": "~appFolder/plugins/dev-proxy-plugins.dll"
+    }
+  ],
+  "urlsToWatch": [
+    "https://localhost:*/*",
+    "http://localhost:*/*"
+  ],
+  "port": 8000,
+  "ipAddress": "127.0.0.1",
+  "record": false,
+  "newVersionNotification": false,
+  "mockingPlugin": {
+    "mocksFile": "mocks.json"
+  },
+  "openApiSpecGeneratorPlugin": {
+    "includeOptionsRequests": false
+  }
+}

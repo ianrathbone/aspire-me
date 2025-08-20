@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  devproxy:
+    image: ghcr.io/microsoft/dev-proxy:latest
+    container_name: aspire-devproxy
+    ports:
+      - "8000:8000"  # DevProxy port
+      - "8001:8001"  # DevProxy admin port
+    volumes:
+      - ./.devproxy/config:/usr/src/app/config:ro
+      - ./.devproxy/cert:/usr/src/app/cert:ro
+    environment:
+      - DEV_PROXY_CONFIG_FILE=/usr/src/app/config/devproxy.json
+    command: ["--config-file", "/usr/src/app/config/devproxy.json"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
   api:
     build:
       context: .
@@ -10,6 +29,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
+      - HTTPS_PROXY=http://devproxy:8000
+      - HTTP_PROXY=http://devproxy:8000
+    depends_on:
+      devproxy:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
@@ -26,8 +50,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - ApiService__BaseAddress=http://api:8080
+      - HTTPS_PROXY=http://devproxy:8000
+      - HTTP_PROXY=http://devproxy:8000
     depends_on:
       api:
+        condition: service_healthy
+      devproxy:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]

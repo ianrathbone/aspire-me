@@ -1,0 +1,47 @@
+[
+  {
+    "request": {
+      "url": "https://localhost:*/weatherforecast*",
+      "method": "GET"
+    },
+    "response": {
+      "statusCode": 200,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "body": [
+        {
+          "date": "2024-01-15",
+          "temperatureC": 22,
+          "temperatureF": 72,
+          "summary": "Sunny (DevProxy Mock)"
+        },
+        {
+          "date": "2024-01-16", 
+          "temperatureC": 18,
+          "temperatureF": 64,
+          "summary": "Partly Cloudy (DevProxy Mock)"
+        },
+        {
+          "date": "2024-01-17",
+          "temperatureC": 25,
+          "temperatureF": 77,
+          "summary": "Clear (DevProxy Mock)"
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "url": "https://localhost:*/health*",
+      "method": "GET"
+    },
+    "response": {
+      "statusCode": 200,
+      "headers": {
+        "content-type": "text/plain"
+      },
+      "body": "Healthy (DevProxy Mock)"
+    }
+  }
+]

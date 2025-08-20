@@ -416,3 +416,15 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# DevProxy certificates and sensitive configuration
+.devproxy/cert/*.pfx
+.devproxy/cert/*.p12
+.devproxy/cert/*.crt
+.devproxy/cert/*.key
+.devproxy/cert/*.pem
+
+# DevProxy generated files
+.devproxy/logs/
+.devproxy/recordings/
+.devproxy/cache/
